@@ -8,6 +8,7 @@ class Robot extends React.Component {
       robots: [],
       searchValue: "",
       filteredRobots: [],
+      loading: true,
     };
   }
 
@@ -18,13 +19,14 @@ class Robot extends React.Component {
     //     this.setState({ robots: robots });
     //     this.setState({ filteredRobots: robots });
     //   });
-
     const getData = async () => {
       const res = await fetch("https://jsonplaceholder.typicode.com/users");
       const robots = await res.json();
 
       this.setState({ robots: robots });
       this.setState({ filteredRobots: robots });
+
+      this.setState({ loading: false });
     };
     getData();
   }
@@ -37,6 +39,15 @@ class Robot extends React.Component {
   };
 
   render() {
+    if (this.state.loading === true) {
+      return (
+        <div className="loader-container">
+          <h1>Loading... </h1>
+          <div className="spinner"></div>
+        </div>
+      );
+    }
+
     return (
       <>
         <div className="tc">
