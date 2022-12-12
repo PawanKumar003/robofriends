@@ -1,20 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Card from "./component/card/card";
 import SearchInput from "./component/search/searchInput";
 
-class App extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      count: 0,
-      robots: [],
-      searchValue: "",
-      filteredRobots: [],
-      loading: true,
-    };
-  }
+function App() {
+  const [robots, setRobots] = useState([]);
+  const [filteredRobots, setFilteredRobots] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  componentDidMount() {
+  useEffect(() => {
     // fetch(`https://jsonplaceholder.typicode.com/users`)
     //   .then((res) => res.json())
     //   .then((robots) => {
@@ -24,52 +17,49 @@ class App extends React.Component {
     const getData = async () => {
       const res = await fetch("https://jsonplaceholder.typicode.com/users");
       const robots = await res.json();
-
-      this.setState({ robots: robots });
-      this.setState({ filteredRobots: robots });
-
-      this.setState({ loading: false });
+      setRobots(robots);
+      setFilteredRobots(robots);
+      setIsLoading(false);
     };
     getData();
-  }
+  }, []);
 
-  filterRobots = (e) => {
-    const newRobts = this.state.robots.filter((robot) =>
+  const filterRobots = (e) => {
+    const newRobts = robots.filter((robot) =>
       robot.name.toLowerCase().includes(e.target.value.toLowerCase())
     );
-    this.setState({ filteredRobots: newRobts });
+    setFilteredRobots(newRobts);
   };
 
-  render() {
-    if (this.state.loading === true) {
-      return (
-        <div className="loader-container">
-          <h1>Loading... </h1>
-          <div className="spinner"></div>
-        </div>
-      );
-    }
-
+  if (isLoading === true) {
     return (
-      <div className="tc">
-        <div>
-          <h1 className="f1">RoboFriends</h1>
-        </div>
-        <div className="p2">
-          <SearchInput
-            placeholder="Search robots"
-            onChange={this.filterRobots}
-            type="search"
-          />
-        </div>
-
-        <div className="dFlex">
-          {this.state.filteredRobots.map((el) => (
-            <Card key={el.id} id={el.id} name={el.name} email={el.email} />
-          ))}
-        </div>
+      <div className="loader-container">
+        <h1>Loading... </h1>
+        <div className="spinner"></div>
       </div>
     );
   }
+
+  return (
+    <div className="tc">
+      <div>
+        <h1 className="f1">RoboFriends</h1>
+      </div>
+      <div className="p2">
+        <SearchInput
+          placeholder="Search robots"
+          onChange={filterRobots}
+          type="search"
+        />
+      </div>
+
+      <div className="dFlex">
+        {filteredRobots.map((el) => (
+          <Card key={el.id} id={el.id} name={el.name} email={el.email} />
+        ))}
+      </div>
+    </div>
+  );
 }
+
 export default App;
