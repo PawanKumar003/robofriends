@@ -4,7 +4,8 @@ import App from "./App";
 import "./App.css";
 import "./index.css";
 import { Provider } from "react-redux";
-import store from "./store";
+// import store from "./store";
+import store from "./tookitstore/Index";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

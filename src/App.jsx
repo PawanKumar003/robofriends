@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 // import Card from "./component/card/card";
 // import SearchInput from "./component/search/searchInput";
-import Todo from "./component/todolist/Todo";
+// import Todo from "./component/todolist/Todo";
+import Todolist from "./component/reduxtoolkit/Todolist";
 
 function App() {
   // const [robots, setRobots] = useState([]);
@@ -99,7 +100,8 @@ function App() {
     //   </div>
     // </div>
     <div className="w-full">
-      <Todo /> 
+      {/* <Todo />  */}
+      <Todolist />
     </div>
   );
 }
